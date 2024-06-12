@@ -1,5 +1,6 @@
 import React from 'react';
 import SectionWrapper from './SectionWrapper';
+import Button from './Button';
 import { useState } from 'react';
 import { WORKOUTS, SCHEMES } from '../utils/swoldier';
 
@@ -18,11 +19,10 @@ function Header(props) {
   );
 }
 
-export default function Generator() {
+export default function Generator(props) {
+  const {goal, setGoal, poison, setPoison, muscles, setMuscles, updateWorkout} = props;
+
   const [showModal, setShowModal] = useState(false);
-  const [poison, setPoision] = useState('individual');
-  const [muscles, setMuscles] = useState([]);
-  const [goal, setGoal] = useState('strength_power');
 
   function toggleModal() {
     setShowModal(!showModal);
@@ -51,6 +51,7 @@ export default function Generator() {
   }
   return (
     <SectionWrapper
+    id={'generate'}
       header={'Generate your workout'}
       title={["It's", 'Huge', "o'clock"]}
     >
@@ -65,10 +66,10 @@ export default function Generator() {
             <button
               onClick={() => {
                 setMuscles([])
-                setPoision(type);
+                setPoison(type);
               }}
               className={
-                'bg-slate-950 border py-3 rounded-lg duration-200 hover:border-blue-600 ' +
+                'bg-slate-950 border py-3 rounded-lg duration-200 hover:border-blue-600 px-4 ' +
                 (type === poison ? 'border-blue-600' : 'border-blue-400')
               }
               key={typeIndex}
@@ -122,7 +123,7 @@ export default function Generator() {
         title={'Become Juggernaut'}
         description={'Select your ultimate objective.'}
       />
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {Object.keys(SCHEMES).map((scheme, schemeIndex) => {
           return (
             <button
@@ -130,7 +131,7 @@ export default function Generator() {
                 setGoal(scheme);
               }}
               className={
-                'bg-slate-950 border py-3 rounded-lg duration-200 hover:border-blue-600 ' +
+                'bg-slate-950 border py-3 rounded-lg duration-200 px-4 hover:border-blue-600 ' +
                 (scheme === goal ? 'border-blue-600' : 'border-blue-400')
               }
               key={schemeIndex}
@@ -140,6 +141,10 @@ export default function Generator() {
           );
         })}
       </div>
+      <Button func={updateWorkout} text={"Formulate"} />
     </SectionWrapper>
+    
+
   );
 }
+
